@@ -169,6 +169,40 @@ Static Timing Analysis (STA) to verify that the design runs at the designated cl
 
 
 
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/7cdff4b4-a2b3-4a7c-9ebf-fc9ff921f791)
+
+
+
+
+#Change directory to openlane flow directorycdDesktop/work/tools/openlane_working_dir/openlane
+
+#alias docker='docker run -it -v $(pwd):/openLANE_flow -v $PDK_ROOT:$PDK_ROOT -e PDK_ROOT=$PDK_ROOT -u $(id -u $USER):$(id -g $USER) efabless/openlane:v0.21'#Since we have aliased the long command to 'docker' we can invoke the OpenLANE flow docker sub-system by just running this commanddocker
+
+#Now that we have entered the OpenLANE flow contained docker sub-system we can invoke the OpenLANE flow in the Interactive mode using the following command./flow.tcl -interactive
+
+#Now that OpenLANE flow is open we have to input the required packages for proper functionality of the OpenLANE flowpackage require openlane 0.9
+
+#Now the OpenLANE flow is ready to run any design and initially we have to prep the design creating some necessary files and directories for running a specific design which in our case is 'picorv32a'prep -design picorv32a
+
+#Now that the design is prepped and ready, we can run synthesis using following commandrun_synthesis
+
+#Exit from OpenLANE flowexit#Exit from OpenLANE flow docker sub-systemexit
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/b9713763-12a7-4c7c-8640-0f16e6f4f324)
+
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/530c32d0-27bc-48cb-b9d8-7d677e58dfe8)
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/47cda489-07b6-4712-925d-62fabe405e3a)
+
+Once the openLane is opened we need to load all the package everytime. By using command package require openlane 0.9 After that we need to do design setup by providing all the input files. By using command prep -design picorv32a.
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/1f6e4701-4d6b-4e98-86a4-a344b3a844d4)
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/1d9c3a6c-7b10-4264-ad13-4863fd79e13f)
+
+
+
+
+
 
 
 
