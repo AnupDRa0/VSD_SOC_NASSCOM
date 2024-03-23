@@ -176,18 +176,24 @@ Static Timing Analysis (STA) to verify that the design runs at the designated cl
 
 #Change directory to openlane flow directorycdDesktop/work/tools/openlane_working_dir/openlane
 
-#alias docker='docker run -it -v $(pwd):/openLANE_flow -v $PDK_ROOT:$PDK_ROOT -e PDK_ROOT=$PDK_ROOT -u $(id -u $USER):$(id -g $USER) efabless/openlane:v0.21'#Since we have aliased the long command to 'docker' we can invoke the OpenLANE flow docker sub-system by just running this commanddocker
+#alias docker='docker run -it -v $(pwd):/openLANE_flow -v $PDK_ROOT:$PDK_ROOT -e PDK_ROOT=$PDK_ROOT -u $(id -u $USER):$(id -g $USER) efabless/openlane:v0.21'#Since we have aliased the long command to 'docker' we can invoke the OpenLANE flow docker sub-system by just running this command
+docker
 
-#Now that we have entered the OpenLANE flow contained docker sub-system we can invoke the OpenLANE flow in the Interactive mode using the following command./flow.tcl -interactive
+#Now that we have entered the OpenLANE flow contained docker sub-system we can invoke the OpenLANE flow in the Interactive mode using the following command
+./flow.tcl -interactive
 
-#Now that OpenLANE flow is open we have to input the required packages for proper functionality of the OpenLANE flowpackage require openlane 0.9
+#Now that OpenLANE flow is open we have to input the required packages for proper functionality of the OpenLANE flow
+package require openlane 0.9
 
-#Now the OpenLANE flow is ready to run any design and initially we have to prep the design creating some necessary files and directories for running a specific design which in our case is 'picorv32a'prep -design picorv32a
+#Now the OpenLANE flow is ready to run any design and initially we have to prep the design creating some necessary files and directories for running a specific design which in our case is 'picorv32a'
+prep -design picorv32a
 
-#Now that the design is prepped and ready, we can run synthesis using following commandrun_synthesis
+#Now that the design is prepped and ready, we can run synthesis using following command 
+run_synthesis
 
-#Exit from OpenLANE flowexit#Exit from OpenLANE flow docker sub-systemexit
-![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/b9713763-12a7-4c7c-8640-0f16e6f4f324)
+#Exit from OpenLANE flowexit#Exit from OpenLANE flow docker sub-system
+exit
+
 
 
 ![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/530c32d0-27bc-48cb-b9d8-7d677e58dfe8)
