@@ -55,6 +55,128 @@ Directly after this, we've to implement this RISC-V specification using some RTL
 
   ![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/aaf66c01-567c-4ceb-ae37-abfa04c56ab9)
 
+  The output of the compiler are instructions and the output of the assembler is the binary pattern.
+  Now, we need some RTL (a Hardware Description Language) which understands and implements the particular instructions.
+  Then, this RTL is synthesised into a netlist in form of gates which is fabricated into the chip through a physical design implementation.
+
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/fc440054-4494-493d-9358-f7dec7bdef20)
+
+* There are mainly 3 different parts in this course.
+* They are:
+     *RISC-V ISA
+    *RTL and synthesis of RISC-V based CPU core - picorv32
+     *Physical design implementation of picorv32
+
+
+  ![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/9ff7d5ee-346b-4d2d-89b0-0eb1fa4d8158)
+
+  Open-source Implementation
+	• For open-source ASIC design implemantation, we require the following enablers to be readily available as open-source versions. They are:-
+	1. RTL Designs
+	2. EDA Tools
+	3. PDK Data
+	• Initially in the early ages, the design and fabrication of IC's were tightly coupled and were only practiced by very few companies like TI, Intel, etc.
+	• In 1979, Lynn Conway and Carver Mead came up with an idea to saperate the design from the fabrication and to do this they inroduced structured design methodologies based on the λ-based design rules and published the first VLSI book "Introduction to VLSI System" which started the VLSI education.
+	• This methodology resulted in the emergence of the design only companies or "Fabless Companies" and fabrication only companies that we usually refer to as "Pure Play Fabs".
+	• The inteface between the designers and the fab by now became a set of data files and documents, that are reffered to as the "Process Design Kits (PDKs)".
+	• The PDK include but not limited to Device Models, Technology Information, Design Rules, Digital Standard Cell Libraries, I/O Libraries and many more.
+	• Since, the PDK contained variety of informations, and so they were distributed only under NDAs (Non-Disclosure Agreements) which made it in-accessible to the public.
+	• Recently, Google worked out an agreement with skywater to open-source the PDK for the 130nm process by skywater Technology, as a result on 30 June 2020 Google released the first ever open-source PDK.
+
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/fbd486ec-eb8f-415d-a043-1bfbe8974a18)
+
+*ASIC design is a complex step that involves tons of steps, various methodologies and respective EDA tools which are all required for successful ASIC implementation which is achieved though an ASIC flow which is nothing but a piece of software that pulls different tools togather to carry out the design process.
+
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/9735541c-a5ed-4004-a6e1-5685024c2923)
+
+
+OpenLANE Open-source ASIC Design Implementation Flow
+The main objective of the ASIC Design Flow is to take the design from the RTL (Register Transfer Level) all the way to the GDSII, which is the format used for the final fabrication layout.
+
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/503e7a7b-0ca1-481d-a5b8-ab5b1de8c694)
+
+
+
+• Synthesis is the process of convertion or translation of design RTL into circuits made out of Standard Cell Libraries (SCL) the resultant circuit is described in HDL and is usually reffered to as the Gate-Level Netlist.
+Gate-Level Netlist is functionally equivalent to the RTL.
+
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/5ed4be48-e818-47dc-9bbb-334bdf753985)
+
+• The fundemental building blocks which are the standard cells have regular layouts.
+Each cell has different views/models which are utilised by different EDA tools like liberty view with electrical models of the cells, HDL behavioral models, SPICE or CDL views of the cells, Layout view which include GDSII view which is the detailed view and LEF view which is the abstract view.
+
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/ea7cfe59-fa71-4624-bf43-31366b3b0c8b)
+
+->Chip Floor Planning
+
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/a4d38eab-59c5-43fb-a3c8-b5e1bc7cfba7)
+
+-> Macro FP
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/ce84fcbf-1f98-40c7-b862-d5bb9e97f779)
+
+-> Power Planning typically uses upper metal layers for power distribution since thay are thicker than lower metal layers and so have lower resistance and PP is done to avoid electron migration and IR drops.
+
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/ae0fcc65-b1ea-4d56-a52c-4247403c1cde)
+
+->Placement
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/99aac4cb-d22e-4157-a3ba-9d8d9b290c21)
+
+-> Global placement provide approximate locations for all cells based on connectivity but in this stage the cells may be overlapped on each other and in detailed placement the positions obtained from global placements are minimally altered to make it legal (non-overlapping and in site-rows)
+
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/8a9fdfd4-7a2a-4c09-bbf0-700848ba37e5)
+
+
+
+->CLOC Tree synth
+
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/8b1759dd-9c89-410d-83f7-97c3b7aa97bc)
+
+-> Clock skew is the time difference in arrival of clock at different components.
+
+-> Routing
+
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/0a6a32c5-e708-4260-8651-7e7516fab28f)
+
+
+-> skywater PDK has 6 routing layers in which the lowest layer is called the local interconnect layer which is a Titanium Nitride layer the following 5 layers are all Aluminium layers.
+
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/c75e0017-006d-42a2-aa28-3a9054bc2413)
+
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/21edd8f0-4019-40b3-9ced-8fa330d24ea8)
+
+• Once done with the routing the final layout can be generated which undergoes various Sign-Off checks.
+• Design Rules Checking (DRC) which verifies that the final layout honours all design fabrication rules.
+• Layout Vs Schematic (LVS) which verifies that the final layout functionality matches the gate-level netlist that we started with.
+Static Timing Analysis (STA) to verify that the design runs at the designated clock frequency.
+
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/670e019d-161c-4f40-8e33-088536bd65fe)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
