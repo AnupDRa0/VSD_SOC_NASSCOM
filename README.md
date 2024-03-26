@@ -205,6 +205,218 @@ Once the openLane is opened we need to load all the package everytime. By using 
 
 ![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/1d9c3a6c-7b10-4264-ad13-4863fd79e13f)
 
+--------------------------------------------------------------------------
+Day 2 - Good floorplan vs bad floorplan and introduction to library cells .
+--------------------------------------------------------------------------
+
+For floorplannning utilization factor needs to be checked. The formula for utilization factor and aspect ratio is given in below image.
+
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/9b82654a-a17c-4143-9fe7-7dc160576749) 
+
+As seen the Netlist Area is 2x2= 4sq unit, and the total area of the core is 4x4 = 16sq unit. So the Utilization Factor becomes 4/16 = 0.25 which is not good. 1 means there is no space for routing and placing additional cells. The aspect ratio is 4/4 = 1
+
+After running Synthesis, we got the Chip area as
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/67e38168-9d3d-490c-b7f0-96ac9630d37a)
+
+All pre-configured files can be found at the following location:
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/14f8b5b8-d247-43ba-81e9-d84c67a79615) 
+
+Now we need to run_floorplan. The reports and results are generated in the location shown in the below image:
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/86e4c601-f8ed-45a9-8df9-8de5a28554c2)
+
+The ioplacer log can be found at the following location:
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/78ade9d6-6aad-4db7-9325-84ee9f7d8a66) 
+
+The details of the ioplacer.log are as follows:
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/6484544a-1ea4-4d07-89dd-461de91713ab)
+
+Invoke Magic tool by attaching tech file with the generated floorplan.def
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/0f7df471-9339-45f5-bfcd-365d525d677c)
+
+Magic tool and the detail of a pin.
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/c1babbd9-fad3-4d7c-9221-5d4fa93aa573)
+
+Standard cells before placement
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/c9ba6ddb-e87b-466e-a91a-8653799fd1d5)
+
+After using command global_placement, we can see the following image through Magic
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/7ef2fed0-2b4f-484f-b98a-b6fac63d7300)
+
+By zooming in we can see the cells as follows:
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/ec0848f6-2db9-4a2e-8b45-6dfd18ed9c52)
+
+---------------------------------------------
+DAY 3 Adding new inverter cell to the library
+---------------------------------------------
+
+Get the git files of the inverter from VSDstdcelldesign git
+We can get a detail understanding of the inverter from the repository of Nickson Jose
+Clone the Git from above links to the system.
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/26f37939-fefd-4168-8413-2dfd50e00ce4)
+
+By using magic we can open the mag file
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/f0e1f384-f10c-48da-b549-1c0b4fb0c14a)
+
+Now by zooming in and enabling grid (Press g on keyboard) we can see the grid dimensions (by using command- box). The value we get here is 0.01u which we will use in spice file.
+
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/22b1dc2a-3e2c-4ecb-9ee9-076b4ed6220f) 
+
+
+There are no DRC’s in the mag file
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/fce55181-0d0d-428d-a9ef-a7e2173330f1)
+
+Now extract the spice file,
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/cfe52f8e-c5b1-449c-b7b0-ffcaa9d344f2)
+
+Now edit the spice file, change the scale to the size of grid of inverter. Include the lib files, provide pulse and do the transient analysis.
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/30703a6f-cdc3-44d6-bb95-5c3f47ea90be)
+
+-> Run the ngspice solution and plot the graph using command -plot y vs time a
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/59fbed94-0c09-42e2-a2b3-1fe5d646621b)
+
+The plot is shown below
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/b988850b-2989-4989-8a04-17938fe37354)
+
+
+Now open tracks.info, to know the pitch and set the grid of inverter as per the track pitch
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/b921961d-8d77-412c-81ff-932f369804ba)
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/e1651ae5-13d8-45d6-a128-1edf65ac8b65) 
+
+Setting the grid of track size to check whether the input and output port of the inverter are on the grid or not. The figure also ensures the width is multiple of the pitch as well as the height.
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/0acecd63-570c-4d73-a7ca-e16558cadcbe)
+
+From the above figure we can say that the stdcell layout is as per the requirement
+
+Write lef to include the cell in our design file
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/03c892ce-10f3-47b3-9122-84c98b6ac9cf)
+
+Contents of the lef file
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/c0243245-fc36-4d46-bf5c-40f1d795e203)
+
+Change the config file, add the libs and our new cell lef.
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/61d9f02e-ebea-42c1-87ab-4f5964819077)
+
+Add the following commands to include lef in the design after changing the config file.
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/8b8b591c-888e-453e-be88-f5bd524d8b0b)
+
+As we can in the following image the new inverters are added to the design
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/30290d5e-f773-43f8-9814-17df26cf5878)
+
+
+-----------------------
+Day 4 - Timing Analysis
+-----------------------
+
+Setting the commands to solve the negative slack
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/08ef671d-32d9-4a48-8f6a-a699c720eda6)
+
+As we can see from the results the negative slack is gone and the area of chip is increased.
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/1a225c57-0ba9-4783-8095-000a7976e968) 
+
+-> After placement we can see our new inverter is placed in the design.
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/d88af3b2-1bc7-4b52-853b-818ca8071320)
+
+-> run_cts command if there are any violations, solve in openroad until the slack is met. Openroad can be invoked in openlane by simply typing openroad. The inputs to openroad are as follows:
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/c376e5d2-7f2a-4926-aad5-780dcceba75f)
+
+From the report, we can see that the timing slack is met
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/56b2e846-c278-4805-b5b3-5078f149ec15)
+
+----------------------------
+Day 5 - Final step - Routing
+----------------------------
+
+To check the current def or what was the last def file that we generated. Use the command echo $::env(CURRENT_DEF) 
+
+Location for setting parameters for various stages.
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/4accc350-3035-4cc8-80fa-26c834033a7a) 
+
+The following image shows the parameters set for routing stage.
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/827def55-b1f3-44fe-bae0-64875ec3507a)
+
+To run routing script, we just need to write the command run_routing in OpenLane tool. After the routing is done. we can get the report from the location as shown in the below image.
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/09a89d92-68f1-447e-9a50-abbcadbfb781)
+
+If there are any errors in routing, we can check those error in the DRC report:
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/d378d07c-78e7-4317-91b4-78e437885079)
+
+Routing def file can be find at the location shown in the below image
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/aee334c2-94c3-4850-8600-20d2b096dbc7)
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/ddba1667-c164-475a-bb88-b7337ff9da42)
+
+A zoom in portion of the image, to see the routed tracks.
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/5d156c56-110b-46bf-aacb-d903c1c0a883)
+
+
+The inverter that we added is also routed, perfectly without any DRC's
+
+![image](https://github.com/AnupDRa0/VSD_SOC_NASSCOM/assets/52745867/f5f46573-16cc-419a-9b38-b4d0a05ebc1b)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
